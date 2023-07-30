@@ -14,10 +14,10 @@
                 <v-text-field variant="solo-filled" label="Password" outlined prepend-icon="mdi-lock" type="password"><v-icon icon="$vuetify">Email</v-icon></v-text-field>
               </v-card-text>
               <v-card-actions class="w-100 justify-space-around">
-                <v-btn class="w-33" color="primary" variant="elevated">
+                <v-btn class="w-33" color="primary" variant="elevated" @click="redirectToSignIn">
                   BACK
                 </v-btn>
-                <v-btn class="w-33" color="primary" variant="elevated">
+                <v-btn class="w-33" color="primary" variant="elevated" @click="redirectToSignIn">
                   SIGN UP
                 </v-btn>
               </v-card-actions>
@@ -32,6 +32,12 @@
 <script>
 export default {
   name: 'OverlaySignInForm',
+  methods: {
+    redirectToSignIn() {
+      this.$router.push({name: 'Home'}
+      );
+    },
+  },
 };
 </script>
 

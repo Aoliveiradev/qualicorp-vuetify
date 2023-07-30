@@ -7,7 +7,7 @@
             <p class="text-h1 my-5 font-weight-bold font-color">Welcome !</p>
             <p class="text-h5 font-weight-light font-color">You don't have an account?</p>
             <p class="text-h6 font-weight-light font-color">Please sign up from here</p>
-            <v-btn class="my-15 w-50" color="primary">Sign Up</v-btn>
+            <v-btn class="my-15 w-50" color="primary" @click="redirectToSignUp">Sign Up</v-btn>
           </v-col>
         </v-row>
       </v-container>
@@ -18,7 +18,14 @@
 <script>
 export default {
   name: 'OverlaySignUpForm',
+  methods: {
+    redirectToSignUp() {
+      this.$router.push({name: 'SignUp'}
+      );
+    },
+  },
 };
+
 </script>
 
 <style>
