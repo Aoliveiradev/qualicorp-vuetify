@@ -12,13 +12,16 @@
               <thead>
               <tr>
                 <th class="text-left">
-                  Date
+                  <v-icon icon="mdi-calendar" />
+                  Data
                 </th>
                 <th class="text-left">
-                  Entry Time
+                  <v-icon icon="mdi-clock" color="green" />
+                  Hora da Entrada
                 </th>
                 <th class="text-left">
-                  Finish Time
+                  <v-icon icon="mdi-clock" color="red" />
+                  Hora da Saida
                 </th>
                 <th class="text-left">
                 </th>
@@ -31,7 +34,9 @@
                   v-for="item in entryExitTimes"
                   :key="item.date"
               >
-                <td>{{ item.date }}</td>
+                <td>
+                  {{ item.date }}
+                </td>
                 <td>{{ item.entryTime }}</td>
                 <td>{{ item.exitTime }}</td>
                 <td>
@@ -53,7 +58,7 @@
 
 <script>
 import BarChart from "@/components/time-in-page/BarChart.vue";
-import {onMounted, ref} from "vue";
+import {onMounted, ref, watchEffect} from "vue";
 import axios from "axios";
 
 export default {
@@ -94,7 +99,7 @@ export default {
       }
     }
 
-    onMounted(() => {
+    watchEffect(() => {
       fetchEntryExitTimes();
     });
 
