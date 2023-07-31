@@ -18,8 +18,6 @@
 <script setup>
 import OverlayUserData from "@/components/time-in-page/OverlayUserData.vue";
 import OverlayUserHistory from "@/components/time-in-page/OverlayUserHistory.vue";
-export default {
-  name: 'Timein',
-};
+  name = 'TimeIn'
 </script>
 

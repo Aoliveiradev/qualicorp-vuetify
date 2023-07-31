@@ -19,7 +19,7 @@ export default {
   name: 'OverlaySignUpForm',
   methods: {
     redirectToSignIn() {
-      this.$router.push({name: 'Home'}
+      this.$router.push({name: 'SignIn'}
       );
     },
   },

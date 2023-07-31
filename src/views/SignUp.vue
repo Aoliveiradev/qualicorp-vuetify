@@ -18,5 +18,6 @@
 <script setup>
 import OverlaySignInForm from "@/components/sign-up-page/OverlaySigninForm.vue";
 import OverlaySignUpForm from "@/components/sign-up-page/OverlaySignUpForm.vue";
+  name = 'SignUp'
 </script>
 

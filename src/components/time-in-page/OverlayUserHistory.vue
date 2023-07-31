@@ -20,16 +20,27 @@
                 <th class="text-left">
                   Finish Time
                 </th>
+                <th class="text-left">
+                </th>
+                <th class="text-left">
+                </th>
               </tr>
               </thead>
               <tbody>
               <tr
-                  v-for="item in desserts"
+                  v-for="item in entryExitTimes"
                   :key="item.date"
               >
                 <td>{{ item.date }}</td>
                 <td>{{ item.entryTime }}</td>
-                <td>{{ item.finishTime }}</td>
+                <td>{{ item.exitTime }}</td>
+                <td>
+                  <v-btn size="30" prepend-icon="mdi-pen" color="primary" @click=""/>
+                </td>
+                <td>
+                  <v-btn size="30" prepend-icon="mdi-delete" color="primary"
+                         @click="deleteEntryExitTime(item)"/>
+                </td>
               </tr>
               </tbody>
             </v-table>
@@ -42,127 +53,59 @@
 
 <script>
 import BarChart from "@/components/time-in-page/BarChart.vue";
+import {onMounted, ref} from "vue";
+import axios from "axios";
 
 export default {
   name: 'OverlaySignInForm',
   components: {BarChart},
-  data: () => ({
-    headers: [
-      {
-        title: 'Dessert (100g serving)',
-        align: 'start',
-        sortable: false,
-        key: 'name',
-      },
-      { title: 'Date', align: 'end', key: 'calories' },
-      { title: 'Entry Time', align: 'end', key: 'fat' },
-      { title: 'FinishTime', align: 'end', key: 'carbs' },
-      { title: 'Protein (g)', align: 'end', key: 'protein' },
-      { title: 'Iron (%)', align: 'end', key: 'iron' },
-    ],
-    desserts: [
-      {
-        date: '01/01/2023',
-        entryTime: '09:00',
-        finishTime: '12:00'
-      },
-      {
-        date: '01/01/2023',
-        entryTime: '13:00',
-        finishTime: '18:00'
-      },
-      {
-        date: '02/01/2023',
-        entryTime: '09:00',
-        finishTime: '12:00'
-      },
-      {
-        date: '02/01/2023',
-        entryTime: '13:00',
-        finishTime: '18:00'
-      },
-      {
-        date: '03/01/2023',
-        entryTime: '09:00',
-        finishTime: '12:00'
-      },
-      {
-        date: '03/01/2023',
-        entryTime: '13:00',
-        finishTime: '18:00'
-      },
-      {
-        date: '04/01/2023',
-        entryTime: '09:00',
-        finishTime: '12:00'
-      },
-      {
-        date: '04/01/2023',
-        entryTime: '13:00',
-        finishTime: '18:00'
-      },
-      {
-        date: '05/01/2023',
-        entryTime: '09:00',
-        finishTime: '12:00'
-      },
-      {
-        date: '05/01/2023',
-        entryTime: '13:00',
-        finishTime: '18:00'
-      },
-      {
-        date: '06/01/2023',
-        entryTime: '09:00',
-        finishTime: '12:00'
-      },
-      {
-        date: '06/01/2023',
-        entryTime: '13:00',
-        finishTime: '18:00'
-      },
-      {
-        date: '07/01/2023',
-        entryTime: '09:00',
-        finishTime: '12:00'
-      },
-      {
-        date: '07/01/2023',
-        entryTime: '13:00',
-        finishTime: '18:00'
-      },
-      {
-        date: '08/01/2023',
-        entryTime: '09:00',
-        finishTime: '12:00'
-      },
-      {
-        date: '08/01/2023',
-        entryTime: '13:00',
-        finishTime: '18:00'
-      },
-      {
-        date: '09/01/2023',
-        entryTime: '09:00',
-        finishTime: '12:00'
-      },
-      {
-        date: '09/01/2023',
-        entryTime: '13:00',
-        finishTime: '18:00'
-      },
-      {
-        date: '10/01/2023',
-        entryTime: '09:00',
-        finishTime: '12:00'
-      },
-      {
-        date: '10/01/2023',
-        entryTime: '13:00',
-        finishTime: '18:00'
-      },
-    ],
-  }),
+  setup() {
+    const entryExitTimes = ref([]);
+    async function fetchEntryExitTimes() {
+      const token = localStorage.getItem('qualicorpToken');
+
+      try {
+        const userIdResponse = await axios.get(`/login`, {
+          headers: {
+            Authorization: token,
+          },
+        });
+        const userId = userIdResponse.data.userId;
+
+        const response = await axios.get(`/times/${userId}`);
+        entryExitTimes.value = response.data.entryExitTimes;
+      } catch (error) {
+        console.error('Erro ao obter os dados:', error);
+      }
+    }
+
+    async function deleteEntryExitTime (item) {
+
+      console.log(item)
+      const date = '2023-07-31';
+
+      try {
+        const deleteItem = await axios.delete(`/times/${item.userId}/${item.id}`, {});
+
+        if (deleteItem) {
+          const response = await axios.get(`/times/${item.userId}/${date}`);
+          entryExitTimes.value = response.data.entryExitTimes;
+          console.log('item deletado', response)
+        }
+      } catch (error) {
+        console.error('Erro ao excluir o item:', error);
+      }
+    }
+
+    onMounted(() => {
+      fetchEntryExitTimes();
+    });
+
+    return {entryExitTimes, deleteEntryExitTime};
+  },
+  methods: {
+
+  },
 };
 </script>
 

@@ -8,13 +8,15 @@
             <h1 class="mb-4">SIGN IN</h1>
             <v-card class="w-100" :flat="true">
               <v-card-text>
-                <v-text-field variant="solo-filled" label="Email" prepend-icon="mdi-email" outlined></v-text-field>
-                <v-text-field variant="solo-filled" label="Password" outlined prepend-icon="mdi-lock" type="password">
+                <v-text-field v-model="email" variant="solo-filled" label="Email" prepend-icon="mdi-email"
+                              outlined></v-text-field>
+                <v-text-field v-model="password" variant="solo-filled" label="Password" outlined prepend-icon="mdi-lock"
+                              type="password">
                   <v-icon icon="$vuetify">Email</v-icon>
                 </v-text-field>
               </v-card-text>
               <v-card-actions class="w-100 justify-space-around">
-                <v-btn class="w-75" color="primary" variant="elevated" @click="redirectToTimeIn">
+                <v-btn class="w-75" color="primary" variant="elevated" @click="login">
                   SIGN IN
                 </v-btn>
               </v-card-actions>
@@ -23,15 +25,62 @@
         </v-row>
       </v-container>
     </v-main>
+    <template>
+      <div class="text-center ma-2">
+        <v-snackbar
+            timeout="5000"
+            v-model="snackbar"
+            :color="snackbarColor"
+        >
+
+          {{ text }}
+
+          <template v-slot:actions>
+            <v-btn
+                color="white"
+                variant="text"
+                @click="snackbar = false"
+            >
+              Close
+            </v-btn>
+          </template>
+        </v-snackbar>
+      </div>
+    </template>
   </v-app>
 </template>
 
 <script>
 export default {
   name: 'OverlaySignInForm',
+  data() {
+    return {
+      email: '',
+      password: '',
+      snackbar: false,
+      text: '',
+      snackbarColor: 'error',
+    };
+  },
   methods: {
-    redirectToTimeIn() {
-      this.$router.push({name: 'timein'});
+    async login() {
+      this.snackbar = false;
+      try {
+        const response = await this.$axios.post(`/users/${this.email}/${this.password}`);
+        const token = response.data.token;
+        localStorage.setItem('qualicorpToken', token);
+        this.$router.push({name: 'TimeIn'});
+      } catch (error) {
+        console.error('Erro ao fazer login:', error);
+        this.showSnackbar('Erro ao fazer login. Verifique o email e a senha.', 'error');
+
+      }
+    },
+
+    showSnackbar(text, color) {
+      this.text = text;
+      this.snackbarColor = color;
+      this.snackbar = true;
     },
   },
 };

@@ -8,7 +8,7 @@ const routes = [
     children: [
       {
         path: '',
-        name: 'Home',
+        name: 'SignIn',
         component: () => import(/* webpackChunkName: "home" */ '@/views/SignIn.vue'),
       },
       {
@@ -18,7 +18,7 @@ const routes = [
       },
       {
         path: 'timein',
-        name: 'timein',
+        name: 'TimeIn',
         component: () => import('@/views/TimeIn.vue'),
       },
     ],
@@ -30,12 +30,13 @@ const router = createRouter({
   routes,
 })
 router.beforeEach((to, from, next) => {
-  const isAuthenticated = localStorage.getItem('userToken');
-  if (to.name === 'timein' && !isAuthenticated) {
-    next({ name: 'Home' });
+  const isAuthenticated = localStorage.getItem('qualicorpToken');
+  if (to.name === 'TimeIn' && !isAuthenticated) {
+    next({ name: 'SignIn' });
   } else {
     next();
   }
 });
+
 
 export default router
