@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-main>
-      <v-container fluid="1" class="pa-0 ma-0 flex-fill overflow-y-hidden overflow-x-hidden">
+      <v-container :fluid="true" class="pa-0 ma-0 flex-fill overflow-y-hidden overflow-x-hidden">
         <v-row no-gutters class="flex-fill ">
           <v-col cols="12" md="6">
             <OverlayUserData />
@@ -18,5 +18,8 @@
 <script setup>
 import OverlayUserData from "@/components/time-in-page/OverlayUserData.vue";
 import OverlayUserHistory from "@/components/time-in-page/OverlayUserHistory.vue";
+export default {
+  name: 'Timein',
+};
 </script>
 

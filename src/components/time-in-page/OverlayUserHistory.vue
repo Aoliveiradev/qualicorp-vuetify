@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-main>
-      <v-container fluid="1" class="d-flex w-100 h-100 pa-0 fill-height">
+      <v-container :fluid="true" class="d-flex w-100 h-100 pa-0 fill-height">
         <v-row class="fill-height">
           <v-col cols="12" md="12" class="d-flex py-10 justify-center align-center pa-15 flex-column">
             <v-table

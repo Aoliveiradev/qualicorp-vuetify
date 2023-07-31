@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-main>
-      <v-container fluid="1" class="bg-blue-degrade flex-column align-center fill-height">
+      <v-container :fluid="true" class="bg-blue-degrade flex-column align-center fill-height">
         <v-row class="fill-height">
           <v-col cols="12" sm="12" md="12" class="d-flex ma-0 pa-0 flex-column justify-center align-center">
             <p class="text-h2 my-5 font-weight-bold font-color">Welcome Back!</p>
