@@ -5,22 +5,22 @@
         <v-row class="fill-height">
           <v-col cols="12" md="12" class="d-flex py-10 justify-center align-center pa-15 flex-column">
             <v-table
-                fixed-header
-                height="600"
-                class="w-75 border-opacity"
+              fixed-header
+              height="600"
+              class="w-75 border-opacity"
             >
               <thead>
               <tr>
                 <th class="text-left">
-                  <v-icon icon="mdi-calendar" />
+                  <v-icon icon="mdi-calendar"/>
                   Data
                 </th>
                 <th class="text-left">
-                  <v-icon icon="mdi-clock" color="green" />
+                  <v-icon icon="mdi-clock" color="green"/>
                   Hora da Entrada
                 </th>
                 <th class="text-left">
-                  <v-icon icon="mdi-clock" color="red" />
+                  <v-icon icon="mdi-clock" color="red"/>
                   Hora da Saida
                 </th>
                 <th class="text-left">
@@ -31,8 +31,8 @@
               </thead>
               <tbody>
               <tr
-                  v-for="item in entryExitTimes"
-                  :key="item.date"
+                v-for="item in entryExitTimes"
+                :key="item.date"
               >
                 <td>
                   {{ item.date }}
@@ -40,7 +40,7 @@
                 <td>{{ item.entryTime }}</td>
                 <td>{{ item.exitTime }}</td>
                 <td>
-                  <v-btn size="30" prepend-icon="mdi-pen" color="primary" @click=""/>
+                  <v-btn size="30" prepend-icon="mdi-pen" color="primary" @click="edit(item)"/>
                 </td>
                 <td>
                   <v-btn size="30" prepend-icon="mdi-delete" color="primary"
@@ -58,13 +58,15 @@
 
 <script>
 import BarChart from "@/components/time-in-page/BarChart.vue";
-import {onMounted, ref, watchEffect} from "vue";
+import {ref, watchEffect} from "vue";
 import axios from "axios";
 
 export default {
   name: 'OverlaySignInForm',
   components: {BarChart},
-  setup() {
+  emits: ['editTimeEntry'],
+
+  setup(props, { emit }) {
     const entryExitTimes = ref([]);
 
     async function fetchEntryExitTimes() {
@@ -86,7 +88,6 @@ export default {
     }
 
     async function deleteEntryExitTime(item) {
-
       try {
         const deleteItem = await axios.delete(`/times/${item.userId}/${item.id}`, {});
 
@@ -99,11 +100,15 @@ export default {
       }
     }
 
+    async function edit(item) {
+      emit('editTimeEntry', item);
+    }
+
     watchEffect(() => {
       fetchEntryExitTimes();
     });
 
-    return {entryExitTimes, deleteEntryExitTime};
+    return {entryExitTimes, deleteEntryExitTime, edit};
   },
 };
 </script>
