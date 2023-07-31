@@ -6,9 +6,11 @@ Este é um projeto de registro de ponto desenvolvido para a empresa XYZ. O objet
 
 ## Funcionalidades
 
+- Registro de usuário
+- Sistema de autenticação
 - Registro de horário de entrada
 - Registro de horário de saída
-- Exibição do horário atual
+- Exibição do horário Registrado por Usuário
 
 ## Instalação e Execução
 
