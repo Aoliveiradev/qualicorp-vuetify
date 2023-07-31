@@ -9,7 +9,7 @@
                 <v-card width="400">
                   <v-img
                       height="200"
-                      src="https://cdn.vuetifyjs.com/docs/images/cards/purple-flowers.jpg"
+                      src="https://uepb.edu.br/wp-content/uploads/2019/09/201909Registro-de-Ponto-Eletr%C3%B4nico-1-1.png"
                       cover
                       class="text-white"
                   >
@@ -17,33 +17,39 @@
                         color="rgba(0, 0, 0, 0)"
                         theme="dark"
                     >
-                      <div class="mx-5">
-                        <strong>{{name}}</strong>
+                      <div class="mx-5 text-black">
+                        <strong>{{ name }}</strong>
                       </div>
                     </v-toolbar>
                   </v-img>
 
                   <v-card-text>
                     <div class="font-weight-bold ms-1 mb-2">
-                      Today
+                      Data e Hora Atual
                     </div>
 
-                    <v-timeline density="compact" align="start">
-                      <v-timeline-item
-                          v-for="timeIns in timeIns"
-                          :key="timeIns.time"
-                          :dot-color="timeIns.color"
-                          size="x-small"
-                      >
-                        <div class="mb-4">
-                          {{ timeIns.date }}
-                          <div class="font-weight-normal my-5">
-                            <strong>Initial:</strong> {{ timeIns.initialTime }} <strong>Finish:</strong>
-                            {{ timeIns.finishTime }}
-                          </div>
-                        </div>
-                      </v-timeline-item>
-                    </v-timeline>
+                    <v-row justify="space-around">
+                      <v-col cols="6">
+                        <label class="font-weight-bold">Entry Time</label>
+                        <v-text-field
+                            v-model="entryTime"
+                            outlined
+                        ></v-text-field>
+                      </v-col>
+
+                      <v-col cols="6">
+                        <label class="font-weight-bold">Exit Time</label>
+                        <v-text-field
+                            v-model="exitTime"
+                            outlined
+                        ></v-text-field>
+                      </v-col>
+                    </v-row>
+
+                    <v-btn @click="getDateAndHour" color="primary">
+                      Registrar Ponto
+                    </v-btn>
+
                   </v-card-text>
                 </v-card>
               </v-row>
@@ -54,29 +60,38 @@
     </v-main>
   </v-app>
 </template>
-
 <script>
+import axios from "axios";
+
 export default {
   name: 'OverlayUserData',
   data: () => ({
-    name: "Allan Oliveira",
-    timeIns: [
-      {
-        date: '01/01/2023',
-        initialTime: '09:12',
-        finishTime: '12:00',
-        color: 'deep-purple-lighten-1',
-      },
-      {
-        date: '01/01/2023',
-        initialTime: '12:00',
-        finishTime: '18:00',
-        color: 'green',
-      },
-
-    ],
+    name: 'Allan Oliveira',
+    entryTime: "",
+    exitTime: "",
   }),
-}
+
+  methods: {
+    async getDateAndHour() {
+
+      try {
+        const token = localStorage.getItem('qualicorpToken');
+        const addTime = await axios.post(`/times`, {
+          entryTime: this.entryTime,
+          exitTime: this.exitTime
+
+        }, {
+          headers: {
+            Authorization: token,
+          },
+        });
+        console.log(addTime, 'sucesso ao adicionar a hora')
+      } catch (error) {
+        console.error('Erro ao excluir o item:', error);
+      }
+    }
+  },
+};
 </script>
 
 <style>
@@ -87,5 +102,4 @@ export default {
 .bg-blue-degrade {
   background: linear-gradient(to bottom right, #c0d6ef, #0296D8);
 }
-
 </style>

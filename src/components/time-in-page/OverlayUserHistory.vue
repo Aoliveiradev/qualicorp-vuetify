@@ -61,6 +61,7 @@ export default {
   components: {BarChart},
   setup() {
     const entryExitTimes = ref([]);
+
     async function fetchEntryExitTimes() {
       const token = localStorage.getItem('qualicorpToken');
 
@@ -79,18 +80,14 @@ export default {
       }
     }
 
-    async function deleteEntryExitTime (item) {
-
-      console.log(item)
-      const date = '2023-07-31';
+    async function deleteEntryExitTime(item) {
 
       try {
         const deleteItem = await axios.delete(`/times/${item.userId}/${item.id}`, {});
 
         if (deleteItem) {
-          const response = await axios.get(`/times/${item.userId}/${date}`);
+          const response = await axios.get(`/times/${item.userId}`);
           entryExitTimes.value = response.data.entryExitTimes;
-          console.log('item deletado', response)
         }
       } catch (error) {
         console.error('Erro ao excluir o item:', error);
@@ -102,9 +99,6 @@ export default {
     });
 
     return {entryExitTimes, deleteEntryExitTime};
-  },
-  methods: {
-
   },
 };
 </script>
