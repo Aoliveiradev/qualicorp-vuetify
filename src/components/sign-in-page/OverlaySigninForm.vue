@@ -12,7 +12,6 @@
                               outlined></v-text-field>
                 <v-text-field v-model="password" variant="solo-filled" label="Password" outlined prepend-icon="mdi-lock"
                               type="password">
-                  <v-icon icon="$vuetify">Email</v-icon>
                 </v-text-field>
               </v-card-text>
               <v-card-actions class="w-100 justify-space-around">
