@@ -44,7 +44,7 @@ OBS: o projeto utiliza node 18.17.0
 Durante o desenvolvimento deste projeto, enfrentei algumas dificuldades, dentre elas:
 
 1. Integração de bibliotecas de data e hora: tive dificuldades em encontrar uma biblioteca de data e hora que funcionasse adequadamente com o Vue.js 3.x. Após algumas pesquisas, entendi que o vuetify 3x ainda não tem compatibilidade com esta feature, e como não tenho mais tempo de desenvolvimento não fiz o downgrade para o vuetify 2x
-2. Formatação de horários: tive dificuldades em formatar os horários de entrada e saída no formato HH:mm. Foram encontradas dificuldades em validar e formatar corretamente os horários digitados pelos usuários. Após algumas tentativas, conseguiu implementar um formato adequado para a exibição e armazenamento dos horários.
+2. Formatação de horários: tive dificuldades em formatar os horários de entrada e saída no formato HH:mm pela falta dos componentes, eu poderia fazer em javascript estes validadores porém falta tempo.
 
 ## Facilidades
 
